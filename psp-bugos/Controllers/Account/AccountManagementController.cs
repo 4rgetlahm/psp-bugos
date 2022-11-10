@@ -6,7 +6,8 @@ namespace psp_bugos.Controllers.Account
     [Route("[controller]")]
     public class AccountManagementController : Controller
     {
-        [HttpPost]
+        [HttpPut]
+        [Route("employee/privileges/edit")]
         public async Task<IActionResult> EditEmployeePrivileges(dynamic employeePrivilegesEditRequest)
         {
             return Ok();
