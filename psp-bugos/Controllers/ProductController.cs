@@ -30,10 +30,46 @@ namespace psp_bugos.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/{id:guid}")]
-        public Product Get(Guid id)
+        [Route("{name}")]
+        public Product Get(string name)
         {
             return m_randomDataGenerator.GenerateValues<Product>();
+        }
+
+        [HttpGet]
+        [Route("{id:guid}")]
+        public object GetDescription(Guid id)
+        {
+            Product result = m_randomDataGenerator.GenerateValues<Product>(id);
+            return new {result.Id, result.Description, result.ImageUrl};
+        }
+
+        [HttpPost]
+        [Route("cart/")]
+        public IEnumerable<Product> GetCart([FromBody] IEnumerable<Guid> ids)
+        {
+            return ids.Select(id => m_randomDataGenerator.GenerateValues<Product>(id));
+        }
+
+        [HttpPost]
+        [Route("cart/add/{id:guid}")]
+        public ActionResult AddProductToCart(Guid id, int count)
+        {
+            return Ok();
+        }
+
+        [HttpPatch]
+        [Route("cart/update/{id:guid}")]
+        public ActionResult UpdateServiceInCart(Guid id, int count)
+        {
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("cart/remove/{id:guid}")]
+        public ActionResult RemoveServiceFromCart(Guid id)
+        {
+            return Ok();
         }
     }
 }
