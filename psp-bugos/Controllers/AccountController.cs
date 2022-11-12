@@ -27,13 +27,21 @@ public class AccountController : Controller
     }
     
     [HttpGet("employees/{id}")]
-    public EmployeeAccount GetEmployeeAccount(int id)
+    public EmployeeAccount GetEmployeeAccount(Guid id)
     {
         return m_randomDataGenerator.GenerateValues<EmployeeAccount>();
     }
+
+    [HttpPost]
+    [Route("employee/select/{id}")]
+    public ActionResult SelectEmployee(Guid id)
+    {
+        // adding specific employee to the order
+        return Ok();
+    }
     
     [HttpGet("customers/{id}")]
-    public CustomerAccount GetCustomerAccount(int id)
+    public CustomerAccount GetCustomerAccount(Guid id)
     {
         return m_randomDataGenerator.GenerateValues<CustomerAccount>();
     }

@@ -18,6 +18,20 @@ public class OrderController : Controller
     [HttpPost]
     public ActionResult ConfirmOrder(PaymentType type, Guid orderId)
     {
+        // dont know what is "needed information" in the task
         return Ok();
     }
+    
+    [HttpPost]
+    public ActionResult ConfirmOrderUnregistered(PaymentType type, Guid orderId, Guid locationId, decimal tips)
+    {
+        return Ok();
+    }
+    
+    [HttpPost]
+    public ActionResult AddDateToOrder(Guid orderId, DateTime date)
+    {
+        return Ok();
+    }
+    
 }

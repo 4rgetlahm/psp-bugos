@@ -60,8 +60,9 @@ public class ServiceController : Controller
     
     [HttpPost]
     [Route("provideInformation")]
-    public ActionResult ProvideInformation([FromBody] int information)// change that(int) to something else
+    public ActionResult ProvideInformation([FromBody] string information)
     {
+        // dont know what is "needed information" in the task, so I'll leave it as string
         return Ok();
     }
 }
