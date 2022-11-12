@@ -16,6 +16,7 @@ public class OrderController : Controller
     }
 
     [HttpPost]
+    [Route("order/confirm/{id}")]
     public ActionResult ConfirmOrder(PaymentType type, Guid orderId)
     {
         // dont know what is "needed information" in the task
@@ -23,6 +24,7 @@ public class OrderController : Controller
     }
     
     [HttpPost]
+    [Route("order/confirm/unregistered/{id}")]
     public ActionResult ConfirmOrderUnregistered(PaymentType type, Guid orderId, Guid locationId, decimal tips)
     {
         return Ok();
