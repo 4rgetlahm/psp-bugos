@@ -1,6 +1,6 @@
 namespace psp_bugos.Models;
 
-public class Account
+public record Account
 {
     public Guid Id { get; set; }
 

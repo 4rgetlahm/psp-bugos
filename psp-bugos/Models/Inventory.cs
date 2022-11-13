@@ -1,6 +1,6 @@
 namespace psp_bugos.Models;
 
-public class Inventory
+public record Inventory
 {
     public Guid ItemId { get; set; }
 

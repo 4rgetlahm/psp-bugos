@@ -1,6 +1,6 @@
 namespace psp_bugos.Models;
 
-public class Shipment
+public record Shipment
 {
     public Guid Id { get; set; }
     

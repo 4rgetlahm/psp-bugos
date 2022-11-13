@@ -1,6 +1,6 @@
 namespace psp_bugos.Models;
 
-public class Business
+public record Business
 {
    public Guid Id { get; set; }
 

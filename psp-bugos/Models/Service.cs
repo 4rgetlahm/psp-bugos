@@ -1,6 +1,6 @@
 namespace psp_bugos.Models;
 
-public class Service
+public record Service
 {
     public Guid Id { get; set; }
     

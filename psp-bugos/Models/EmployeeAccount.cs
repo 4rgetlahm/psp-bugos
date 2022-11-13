@@ -1,6 +1,6 @@
 namespace psp_bugos.Models;
 
-public class EmployeeAccount : Account
+public record EmployeeAccount : Account
 {
     public Privileges Privileges { get; set; }
 

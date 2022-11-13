@@ -5,14 +5,14 @@ using psp_bugos.RandomDataGenerator;
 namespace psp_bugos.Controllers;
 
 [ApiController]
-[Route("[controller]")]
-public class BusinessController : Controller
+[Route("businesses")]
+public class BusinessesController : Controller
 {
-    private readonly IRandomDataGenerator m_randomDataGenerator;
+    private readonly IRandomDataGenerator _randomDataGenerator;
 
-    public BusinessController(IRandomDataGenerator randomDataGenerator)
+    public BusinessesController(IRandomDataGenerator randomDataGenerator)
     {
-        m_randomDataGenerator = randomDataGenerator;
+        _randomDataGenerator = randomDataGenerator;
     }
 
     [HttpGet]
@@ -22,7 +22,7 @@ public class BusinessController : Controller
         var businessLocations = new List<BusinessLocation>();
         for (int i = 0; i < top; i++)
         {
-            businessLocations.Add(m_randomDataGenerator.GenerateValues<BusinessLocation>());
+            businessLocations.Add(_randomDataGenerator.GenerateValues<BusinessLocation>());
         }
 
         return businessLocations;

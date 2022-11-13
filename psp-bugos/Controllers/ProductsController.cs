@@ -5,14 +5,14 @@ using psp_bugos.RandomDataGenerator;
 namespace psp_bugos.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class ProductController : Controller
+    [Route("products")]
+    public class ProductsController : Controller
     {
-        private readonly IRandomDataGenerator m_randomDataGenerator;
+        private readonly IRandomDataGenerator _randomDataGenerator;
 
-        public ProductController(IRandomDataGenerator randomDataGenerator)
+        public ProductsController(IRandomDataGenerator randomDataGenerator)
         {
-            m_randomDataGenerator = randomDataGenerator;
+            _randomDataGenerator = randomDataGenerator;
         }
 
         [HttpGet]
@@ -23,7 +23,7 @@ namespace psp_bugos.Controllers
             var products = new List<Product>();
             for (int i = 0; i < random.Next(1, 10); i++)
             {
-                products.Add(m_randomDataGenerator.GenerateValues<Product>());
+                products.Add(_randomDataGenerator.GenerateValues<Product>());
             }
 
             return products;
@@ -33,14 +33,14 @@ namespace psp_bugos.Controllers
         [Route("{name}")]
         public Product Get(string name)
         {
-            return m_randomDataGenerator.GenerateValues<Product>();
+            return _randomDataGenerator.GenerateValues<Product>();
         }
 
         [HttpGet]
         [Route("{id:guid}")]
         public object GetDescription(Guid id)
         {
-            Product result = m_randomDataGenerator.GenerateValues<Product>(id);
+            var result = _randomDataGenerator.GenerateValues<Product>(id);
             return new {result.Id, result.Description, result.ImageUrl};
         }
 
@@ -48,21 +48,27 @@ namespace psp_bugos.Controllers
         [Route("cart/")]
         public IEnumerable<Product> GetCart([FromBody] IEnumerable<Guid> ids)
         {
-            return ids.Select(id => m_randomDataGenerator.GenerateValues<Product>(id));
+            return ids.Select(id => _randomDataGenerator.GenerateValues<Product>(id));
         }
 
         [HttpPost]
         [Route("cart/add/{id:guid}")]
         public ActionResult AddProductToCart(Guid id, int count)
         {
-            return Ok();
+            var orderItem = _randomDataGenerator.GenerateValues<OrderItem>();
+            orderItem.Quantity = count;
+            orderItem.ProductId = id;
+            return Ok(orderItem);
         }
 
         [HttpPatch]
         [Route("cart/update/{id:guid}")]
         public ActionResult UpdateServiceInCart(Guid id, int count)
         {
-            return Ok();
+            var orderItem = _randomDataGenerator.GenerateValues<OrderItem>();
+            orderItem.Quantity = count;
+            orderItem.ProductId = id;
+            return Ok(orderItem);
         }
 
         [HttpDelete]
