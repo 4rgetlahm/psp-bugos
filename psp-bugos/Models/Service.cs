@@ -1,6 +1,6 @@
 namespace psp_bugos.Models;
 
-public class Service
+public record Service
 {
     public Guid Id { get; set; }
     
@@ -17,4 +17,6 @@ public class Service
     public bool IsEnabled { get; set; }
     
     public string Description { get; set; } = "";
+    
+    public string ImageUrl { get; set; } = "";
 }

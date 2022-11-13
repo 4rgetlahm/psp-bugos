@@ -1,6 +1,6 @@
 namespace psp_bugos.Models;
 
-public class CategoryItem
+public record CategoryItem
 {
     public Guid Id { get; set; }
     

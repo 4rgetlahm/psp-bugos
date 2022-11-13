@@ -1,6 +1,6 @@
 namespace psp_bugos.Models;
 
-public class Product
+public record Product
 {
     public Guid Id { get; set; }
     

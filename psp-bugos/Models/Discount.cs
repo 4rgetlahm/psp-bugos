@@ -1,6 +1,6 @@
 namespace psp_bugos.Models;
 
-public class Discount
+public record Discount
 {
     public Guid Id { get; set; }
 

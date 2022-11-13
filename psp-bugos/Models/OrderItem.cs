@@ -1,6 +1,6 @@
 namespace psp_bugos.Models;
 
-public class OrderItem
+public record OrderItem
 {
     public Guid Id { get; set; }
     

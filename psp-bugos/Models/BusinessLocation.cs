@@ -1,6 +1,6 @@
 namespace psp_bugos.Models;
 
-public class BusinessLocation
+public record BusinessLocation
 {
     public Guid Id { get; set; }
 
@@ -15,6 +15,4 @@ public class BusinessLocation
     public string ZipCode { get; set; } = "";
     
     public string PhoneNumber { get; set; } = "";
-    
-    
 }

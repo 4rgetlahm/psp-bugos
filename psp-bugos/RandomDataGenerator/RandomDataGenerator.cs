@@ -2,41 +2,38 @@ namespace psp_bugos.RandomDataGenerator;
 
 public class RandomDataGenerator : IRandomDataGenerator
 {
-    public T GenerateValues<T>() where T : class, new()
+    public T GenerateValues<T>(Guid? id = null) where T : class, new()
     {
         var result = new T();
         var properties = typeof(T).GetProperties();
         var random = new Random();
         foreach (var property in properties)
         {
-            switch (property.PropertyType)
+            if (property.Name != "Id")
             {
-                case { } t when t == typeof(string):
+                var type = property.PropertyType;
+                if (type == typeof(string))
                     property.SetValue(result, $"Test {property.Name}");
-                    break;
-                case { } t when t == typeof(int):
+                else if (type == typeof(int))
                     property.SetValue(result, random.Next());
-                    break;
-                case { } t when t == typeof(decimal):
+                else if (type == typeof(decimal))
                     property.SetValue(result, new decimal(random.NextDouble()));
-                    break;
-                case { } t when t == typeof(DateTime):
+                else if (type == typeof(DateTime))
                     property.SetValue(result, DateTime.Now);
-                    break;
-                case { } t when t == typeof(bool):
+                else if (type == typeof(bool))
                     property.SetValue(result, random.Next(0, 2) == 1);
-                    break;
-                case { } t when t == typeof(Guid):
+                else if (type == typeof(Guid))
                     property.SetValue(result, Guid.NewGuid());
-                    break;
-                case { } t when t == typeof(Enum):
+                else if (type == typeof(Enum))
                     property.SetValue(result,
                         Enum.GetValues(property.PropertyType)
                             .GetValue(random.Next(0, Enum.GetValues(property.PropertyType).Length)));
-                    break;
-                default:
+                else
                     property.SetValue(result, null);
-                    break;
+            }
+            else
+            {
+                property.SetValue(result, id ?? Guid.NewGuid());
             }
         }
         return result;

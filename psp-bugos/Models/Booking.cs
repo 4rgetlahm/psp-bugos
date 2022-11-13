@@ -1,6 +1,6 @@
 namespace psp_bugos.Models;
 
-public class Booking
+public record Booking
 {
     public Guid Id { get; set; }
     
@@ -15,5 +15,4 @@ public class Booking
     public Guid TimeSlotId { get; set; }
     
     public BookingState State { get; set; }
-    
 }

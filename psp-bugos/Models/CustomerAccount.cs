@@ -1,6 +1,6 @@
 namespace psp_bugos.Models;
 
-public class CustomerAccount : Account
+public record CustomerAccount : Account
 {
     
 }
