@@ -4,9 +4,11 @@ public class RandomDataGenerator : IRandomDataGenerator
 {
     public T GenerateValues<T>(Guid? id = null) where T : class, new()
     {
+        var seed = 0;
+        var random = new Random(seed);
+        
         var result = new T();
         var properties = typeof(T).GetProperties();
-        var random = new Random();
         foreach (var property in properties)
         {
             if (property.Name != "Id")
