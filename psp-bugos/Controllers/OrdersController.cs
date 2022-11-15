@@ -33,8 +33,8 @@ public class OrdersController : Controller
     /** <summary>Confirm order without registered user.</summary>
       * <param name="locationId" example="e0299fb1-487a-443b-9b34-c6d08493c04d">Location id</param>
       * <param name="orderId" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Order id</param>
-     * <param name="tips" example="10.00"> Tips.</param>
-     * <param name="type" example="1"> Payment type.</param>
+      * <param name="tips" example="10.00"> Tips.</param>
+      * <param name="type" example="1"> Payment type.</param>
       * <response code="200">Order has been confirmed.</response>
       * <remarks>Note: Currently we need to discuss what is needed information.</remarks>
       */

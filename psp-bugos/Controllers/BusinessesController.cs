@@ -16,10 +16,10 @@ public class BusinessesController : Controller
         _randomDataGenerator = randomDataGenerator;
     }
 
-    /** <summary>Get all empployees.</summary>
-      * <param name="continuationToken" example="">Token used for pagination(get next top employees)</param>
-      * <param name="top" example="100">Number of employees to be returned in one badge. (maximum - 1000)</param>
-      * <response code="200">Returns a created business location.</response>
+    /** <summary>Get all businesses.</summary>
+      * <param name="continuationToken" example="">Token used for pagination(get next top businesses)</param>
+      * <param name="top" example="100">Number of businesses to be returned in one badge. (maximum - 1000)</param>
+      * <response code="200">Returns a all businesses.</response>
       * <response code="400">Incorrect request: top value larger than 1000 or negative.</response>
       */ 
     [HttpGet]
