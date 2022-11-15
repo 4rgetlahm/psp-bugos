@@ -61,7 +61,7 @@ public class OrdersController : Controller
 
     /** <summary>Add comment to the order</summary>
       * <param name="orderId" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Order id</param>
-      * <param name="comment" example="2022-12-24"> Order comments.</param>
+      * <param name="comment" example="I want no onions"> Order comments.</param>
       * <response code="200">Comment has been added to the order.</response>
       */
     [HttpPost]
