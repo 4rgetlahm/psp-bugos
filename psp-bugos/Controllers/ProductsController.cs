@@ -52,7 +52,7 @@ namespace psp_bugos.Controllers
             * <response code="404">No products by the specified name found.</response>
             */
         [HttpGet]
-        [Route("{name}")]
+        [Route("find/name/{name}")]
         public Product Get(string name)
         {
             return _randomDataGenerator.GenerateValues<Product>();
@@ -82,6 +82,36 @@ namespace psp_bugos.Controllers
             return ids.Select(id => _randomDataGenerator.GenerateValues<Product>(id));
         }
 
+        /** <summary>Get products by category.</summary>
+            * <param name="category" example="Fruits">Product category.</param>
+            * <param name="continuationToken" example="">Token used for pagination(get next top products).</param>
+            * <param name="top" example="100">Number of products to be returned in one badge. (maximum - 1000).</param>
+            * <response code="200">Returns products.</response>
+            * <response code="400">Incorrect request: top value larger than 1000 or negative.</response>
+            */
+        [HttpGet]
+        [Route("find/category/{category}")]
+        public ActionResult<ContinuationTokenResult<IEnumerable<Product>>> GetByCategory(string category, string? continuationToken = null,
+            int top = 100)
+        {
+            if (top > 1000)
+                return new BadRequestObjectResult("Top value cannot be greater than 1000");
+            if (top < 0)
+                return new BadRequestObjectResult("Top value cannot be negative");
+
+            var products = new List<Product>();
+            for (int i = 0; i < top; i++)
+            {
+                products.Add(_randomDataGenerator.GenerateValues<Product>());
+            }
+
+            return new ContinuationTokenResult<IEnumerable<Product>>
+            {
+                Response = products,
+                ContinuationToken = Guid.NewGuid().ToString()
+            };
+        } 
+        
         /** <summary>Add product to cart.</summary>
             * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Product id.</param>
             * <param name="count" example="10">Product amount to be added.</param>

@@ -59,6 +59,20 @@ public class OrdersController : Controller
         return Ok(order);
     }
 
+    /** <summary>Add comment to the order</summary>
+      * <param name="orderId" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Order id</param>
+      * <param name="comment" example="2022-12-24"> Order comments.</param>
+      * <response code="200">Comment has been added to the order.</response>
+      */
+    [HttpPost]
+    [Route("{orderId}/addComment")]
+    public ActionResult AddDateToOrder(Guid orderId, [FromBody] string comment)
+    {
+        var order = _randomDataGenerator.GenerateValues<OrderItem>(orderId);
+        order.Comment = comment;
+        return Ok(order);
+    }
+    
     /** <summary>Add employee to the order</summary>
         * <param name="orderId" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Order id</param>
         * <param name="employeeId" example="f9aaafb1-487a-443b-9b34-c6d08493c04d"> Employee id.</param>

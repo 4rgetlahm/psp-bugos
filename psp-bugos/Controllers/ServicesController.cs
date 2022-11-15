@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using psp_bugos.Models;
+using psp_bugos.Models.ContinuationTokens;
 using psp_bugos.Models.Create;
 using psp_bugos.Models.Update;
 using psp_bugos.RandomDataGenerator;
@@ -24,7 +25,7 @@ public class ServicesController : Controller
         * <response code="404">No service by the specified name found.</response>
         */
     [HttpGet]
-    [Route("{name}")]
+    [Route("find/name/{name}")]
     public Service Get(string name)
     {
         return _randomDataGenerator.GenerateValues<Service>();
@@ -52,6 +53,36 @@ public class ServicesController : Controller
     public IEnumerable<Service> GetCart([FromBody] IEnumerable<Guid> ids)
     {
         return ids.Select(id => _randomDataGenerator.GenerateValues<Service>(id));
+    }
+
+    /** <summary>Get services by category.</summary>
+        * <param name="category" example="Barbershop">Service category.</param>
+        * <param name="continuationToken" example="">Token used for pagination(get next top products).</param>
+        * <param name="top" example="100">Number of services to be returned in one badge. (maximum - 1000).</param>
+        * <response code="200">Returns services.</response>
+        * <response code="400">Incorrect request: top value larger than 1000 or negative.</response>
+        */
+    [HttpGet]
+    [Route("find/category/{category}")]
+    public ActionResult<ContinuationTokenResult<IEnumerable<Service>>> GetByCategory(string category, string? continuationToken = null,
+        int top = 100)
+    {
+        if (top > 1000)
+            return new BadRequestObjectResult("Top value cannot be greater than 1000");
+        if (top < 0)
+            return new BadRequestObjectResult("Top value cannot be negative");
+
+        var services = new List<Service>();
+        for (int i = 0; i < top; i++)
+        {
+            services.Add(_randomDataGenerator.GenerateValues<Service>());
+        }
+
+        return new ContinuationTokenResult<IEnumerable<Service>>
+        {
+            Response = services,
+            ContinuationToken = Guid.NewGuid().ToString()
+        };
     }
 
     /** <summary>Add service to cart.</summary>
