@@ -18,6 +18,11 @@ public class ServicesController : Controller
         _randomDataGenerator = randomDataGenerator;
     }
 
+    /** <summary>Get service by name.</summary>
+        * <param name="name" example="banana">Service name.</param>
+        * <response code="200">Returned a specific service.</response>
+        * <response code="404">No service by the specified name found.</response>
+        */
     [HttpGet]
     [Route("{name}")]
     public Service Get(string name)
@@ -25,14 +30,23 @@ public class ServicesController : Controller
         return _randomDataGenerator.GenerateValues<Service>();
     }
 
+    /** <summary>Get service description.</summary>
+        * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Service id.</param>
+        * <response code="200">Returned a specific service description.</response>
+        * <response code="404">No services by specific id found.</response>
+        */
     [HttpGet]
     [Route("{id:guid}")]
     public object Get(Guid id)
     {
         var result = _randomDataGenerator.GenerateValues<Service>(id);
-        return new { result.Id, result.Description, result.ImageUrl };
+        return new {result.Id, result.Description, result.ImageUrl};
     }
 
+    /** <summary>Get services cart.</summary>
+        * <param name="ids" >Service ids in the cart.</param>
+        * <response code="200">Returned cart data successfully.</response>
+        */
     [HttpPost]
     [Route("cart/")]
     public IEnumerable<Service> GetCart([FromBody] IEnumerable<Guid> ids)
@@ -40,6 +54,11 @@ public class ServicesController : Controller
         return ids.Select(id => _randomDataGenerator.GenerateValues<Service>(id));
     }
 
+    /** <summary>Add service to cart.</summary>
+        * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Product id.</param>
+        * <response code="200">Returned cart data successfully.</response>
+        * <response code="404">Service not found.</response>
+            */
     [HttpPost]
     [Route("cart/add/{id:guid}")]
     public ActionResult AddServiceToCart(Guid id, [FromBody] Booking booking)
@@ -49,6 +68,11 @@ public class ServicesController : Controller
         return Ok(orderItem);
     }
 
+    /** <summary>Update services in a cart.</summary>
+        * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Service id.</param>
+        * <response code="200">Returned cart data successfully.</response>
+        * <response code="404">Service not found.</response>
+        */
     [HttpPatch]
     [Route("cart/update/{id:guid}")]
     public ActionResult UpdateServiceInCart(Guid id, [FromBody] Booking booking)
@@ -58,6 +82,11 @@ public class ServicesController : Controller
         return Ok(orderItem);
     }
 
+    /** <summary>Remove service in a cart.</summary>
+        * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Service id.</param>
+        * <response code="200">Returned cart data successfully.</response>
+        * <response code="404">Service not found.</response>
+        */
     [HttpDelete]
     [Route("cart/remove/{id:guid}")]
     public ActionResult RemoveServiceFromCart(Guid id)
@@ -65,9 +94,14 @@ public class ServicesController : Controller
         return Ok();
     }
 
+    /** <summary>Provide service information</summary>
+        * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Service id.</param>
+        * <response code="200">Provided information about service.</response>
+        * <response code="404">Service not found.</response>
+        */
     [HttpPost]
     [Route("provideInformation")]
-    public ActionResult ProvideInformation([FromBody] string information)
+    public ActionResult ProvideInformation(Guid id, [FromBody] string information)
     {
         // dont know what is "needed information" in the task, so I'll leave it as string
         return Ok();

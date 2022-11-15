@@ -21,7 +21,7 @@ namespace psp_bugos.Controllers
             * <param name="top" example="100">Number of products to be returned in one badge. (maximum - 1000).</param>
             * <response code="200">Returns a all products.</response>
             * <response code="400">Incorrect request: top value larger than 1000 or negative.</response>
-        */
+            */
         [HttpGet]
         public ActionResult<ContinuationTokenResult<IEnumerable<Product>>> GetAll(string? continuationToken = null,
             [FromQuery] int top = 100)
@@ -50,7 +50,7 @@ namespace psp_bugos.Controllers
             * <param name="name" example="banana">Product name.</param>
             * <response code="200">Returned a specific product.</response>
             * <response code="404">No products by the specified name found.</response>
-        */ 
+            */ 
         [HttpGet]
         [Route("{name}")]
         public Product Get(string name)
@@ -62,7 +62,7 @@ namespace psp_bugos.Controllers
             * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Product id.</param>
             * <response code="200">Returned a specific product description.</response>
             * <response code="404">No products by specific id found.</response>
-        */ 
+            */ 
         [HttpGet]
         [Route("{id:guid}")]
         public object GetDescription(Guid id)
@@ -74,7 +74,7 @@ namespace psp_bugos.Controllers
         /** <summary>Get products cart.</summary>
             * <param name="ids" >Product ids in the cart.</param>
             * <response code="200">Returned cart data successfully.</response>
-        */  
+            */  
         [HttpPost]
         [Route("cart/")]
         public IEnumerable<Product> GetCart([FromBody] IEnumerable<Guid> ids)
@@ -83,12 +83,12 @@ namespace psp_bugos.Controllers
         }
 
         /** <summary>Add product to cart.</summary>
-            * <param name="id" >Product id.</param>
+            * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Product id.</param>
             * <param name="count" example="10">Product amount to be added.</param>
             * <response code="200">Returned cart data successfully.</response>
             * <response code="400">Incorrect request: count value larger than 1000 or negative.</response>
             * <response code="404">Product not found.</response>
-        */  
+            */  
         [HttpPost]
         [Route("cart/add/{id:guid}")]
         public ActionResult AddProductToCart(Guid id, int count)
@@ -103,12 +103,12 @@ namespace psp_bugos.Controllers
         }
 
         /** <summary>Update products in a cart.</summary>
-            * <param name="id" >Product id.</param>
+            * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Product id.</param>
             * <param name="count" example="10">Product amount to be added.</param>
             * <response code="200">Returned cart data successfully.</response>
             * <response code="400">Incorrect request: count value larger than 1000 or negative.</response>
             * <response code="404">Product not found.</response>
-        */  
+            */  
         [HttpPatch]
         [Route("cart/update/{id:guid}")]
         public ActionResult UpdateServiceInCart(Guid id, int count)
@@ -123,10 +123,10 @@ namespace psp_bugos.Controllers
         }
 
         /** <summary>Remove product in a cart.</summary>
-            * <param name="id" >Product id.</param>
+            * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Product id.</param>
             * <response code="200">Returned cart data successfully.</response>
             * <response code="404">Product not found.</response>
-        */  
+            */  
         [HttpDelete]
         [Route("cart/remove/{id:guid}")]
         public ActionResult RemoveServiceFromCart(Guid id)
