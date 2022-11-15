@@ -19,7 +19,7 @@ public class ServicesController : Controller
     }
 
     /** <summary>Get service by name.</summary>
-        * <param name="name" example="banana">Service name.</param>
+        * <param name="name" example="Barber">Service name.</param>
         * <response code="200">Returned a specific service.</response>
         * <response code="404">No service by the specified name found.</response>
         */

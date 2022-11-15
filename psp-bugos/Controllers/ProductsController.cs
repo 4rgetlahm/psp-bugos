@@ -50,7 +50,7 @@ namespace psp_bugos.Controllers
             * <param name="name" example="banana">Product name.</param>
             * <response code="200">Returned a specific product.</response>
             * <response code="404">No products by the specified name found.</response>
-            */ 
+            */
         [HttpGet]
         [Route("{name}")]
         public Product Get(string name)
@@ -62,7 +62,7 @@ namespace psp_bugos.Controllers
             * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Product id.</param>
             * <response code="200">Returned a specific product description.</response>
             * <response code="404">No products by specific id found.</response>
-            */ 
+            */
         [HttpGet]
         [Route("{id:guid}")]
         public object GetDescription(Guid id)
@@ -74,7 +74,7 @@ namespace psp_bugos.Controllers
         /** <summary>Get products cart.</summary>
             * <param name="ids" >Product ids in the cart.</param>
             * <response code="200">Returned cart data successfully.</response>
-            */  
+            */
         [HttpPost]
         [Route("cart/")]
         public IEnumerable<Product> GetCart([FromBody] IEnumerable<Guid> ids)
@@ -88,14 +88,14 @@ namespace psp_bugos.Controllers
             * <response code="200">Returned cart data successfully.</response>
             * <response code="400">Incorrect request: count value larger than 1000 or negative.</response>
             * <response code="404">Product not found.</response>
-            */  
+            */
         [HttpPost]
         [Route("cart/add/{id:guid}")]
         public ActionResult AddProductToCart(Guid id, int count)
         {
-            if(count <= 0)
+            if (count <= 0)
                 return new BadRequestObjectResult("Count value cannot be negative or zero");
-            
+
             var orderItem = _randomDataGenerator.GenerateValues<OrderItem>();
             orderItem.Quantity = count;
             orderItem.ProductId = id;
@@ -108,14 +108,14 @@ namespace psp_bugos.Controllers
             * <response code="200">Returned cart data successfully.</response>
             * <response code="400">Incorrect request: count value larger than 1000 or negative.</response>
             * <response code="404">Product not found.</response>
-            */  
+            */
         [HttpPatch]
         [Route("cart/update/{id:guid}")]
-        public ActionResult UpdateServiceInCart(Guid id, int count)
+        public ActionResult UpdateProductInCart(Guid id, int count)
         {
-            if(count <=0)
+            if (count <= 0)
                 return new BadRequestObjectResult("Count value cannot be negative or zero");
-            
+
             var orderItem = _randomDataGenerator.GenerateValues<OrderItem>();
             orderItem.Quantity = count;
             orderItem.ProductId = id;
@@ -126,10 +126,10 @@ namespace psp_bugos.Controllers
             * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Product id.</param>
             * <response code="200">Returned cart data successfully.</response>
             * <response code="404">Product not found.</response>
-            */  
+            */
         [HttpDelete]
         [Route("cart/remove/{id:guid}")]
-        public ActionResult RemoveServiceFromCart(Guid id)
+        public ActionResult RemoveProductFromCart(Guid id)
         {
             return Ok();
         }
