@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Server.IISIntegration;
+using psp_bugos.Utilities;
+
 namespace psp_bugos.RandomDataGenerator;
 
 public class RandomDataGenerator : IRandomDataGenerator
@@ -6,16 +9,33 @@ public class RandomDataGenerator : IRandomDataGenerator
     {
         var seed = 0;
         var random = new Random(seed);
-        
+
         var result = new T();
         var properties = typeof(T).GetProperties();
         foreach (var property in properties)
         {
+            var prop = property.GetValue(result);
+
             if (property.Name != "Id")
             {
                 var type = property.PropertyType;
                 if (type == typeof(string))
-                    property.SetValue(result, $"Test {property.Name}");
+                {
+                    if(property.Name.Contains("PhoneNumber"))
+                        property.SetValue(result, "+37064464425");
+                    else if (property.Name.Contains("Email"))
+                        property.SetValue(result, "test.email@mail.com");
+                    else if (property.Name.Contains("Address"))
+                        property.SetValue(result, "evergreen 123");
+                    else if (property.Name.Contains("City"))
+                        property.SetValue(result, "Florida");
+                    else if (property.Name.Contains("ZipCode"))
+                        property.SetValue(result, "12345");
+                    else if (property.Name.Contains("ImageUrl"))
+                        property.SetValue(result, "https://indianmemetemplates.com/wp-content/uploads/sad-pepe-the-frog.jpg");
+                    else
+                        property.SetValue(result, $"Test {property.Name}");
+                }
                 else if (type == typeof(int))
                     property.SetValue(result, random.Next());
                 else if (type == typeof(decimal))
@@ -38,6 +58,7 @@ public class RandomDataGenerator : IRandomDataGenerator
                 property.SetValue(result, id ?? Guid.NewGuid());
             }
         }
+
         return result;
     }
 }
