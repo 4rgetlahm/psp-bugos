@@ -4,9 +4,9 @@ namespace psp_bugos.Models.Update
 {
     public record UpdateAccount
     {
-        /** <summary>GUID of a bussiness</summary>
- *  <example>2e816ad7-5cd7-4da0-bc93-879b36633207</example>
- */
+        /** <summary>GUID of an account</summary>
+         *  <example>2e816ad7-5cd7-4da0-bc93-879b36633207</example>
+         */
         [BindRequired]
         public Guid BusinessId { get; set; }
 
