@@ -120,7 +120,7 @@ public class AccountsController : Controller
      * <response code="200">If request completed successfully</response>
      * <response code="400">Returns what error occured</response>
      */
-    [HttpPut]
+    [HttpPatch]
     [Route("update")]
     public async Task<IActionResult> Update(UpdateAccount accountUpdateRequest)
     {

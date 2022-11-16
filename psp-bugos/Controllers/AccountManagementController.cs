@@ -12,7 +12,7 @@ namespace psp_bugos.Controllers
          * <response code="200">If no issues occured and privileges changed</response>
          * <response code="400">Returns what error occured</response>
          */
-        [HttpPut]
+        [HttpPatch]
         [Route("employee/privileges/edit")]
         public async Task<IActionResult> EditEmployeePrivileges(UpdateEmployeePrivileges employeePrivilegeUpdateRequest)
         {
