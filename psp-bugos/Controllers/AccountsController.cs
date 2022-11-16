@@ -140,13 +140,13 @@ public class AccountsController : Controller
     }
 
     /** <summary>Request an account deletion</summary>
-     * <param name="accountDeleteRequest">Filled model with required delete request information</param>
-     * <response code="200">If verification completed successfully</response>
+     * <param name="accountId">GUID of an account</param>
+     * <response code="200">If deletion request was created successfully</response>
      * <response code="400">Returns what error occured</response>
      */
     [HttpDelete]
     [Route("delete")]
-    public async Task<IActionResult> Delete(DeleteAccount accountDeleteRequest)
+    public async Task<IActionResult> Delete(Guid accountId)
     {
         return Ok();
     }
