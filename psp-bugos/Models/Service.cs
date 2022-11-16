@@ -19,4 +19,7 @@ public record Service
     public string Description { get; set; } = "";
     
     public string ImageUrl { get; set; } = "";
+
+    public List<Category> Categories { get; set; } = new List<Category>();
+    public List<Discount> Discounts { get; set; } = new List<Discount>();
 }
