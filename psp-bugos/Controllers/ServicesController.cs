@@ -159,6 +159,16 @@ public class ServicesController : Controller
         return DtoMapper.MapDtoOnDto(updateService, service);
     }
 
+    /** <summary>Update an existing service's categories</summary>
+      * <response code="200">Returns a modified service.</response>
+      */
+    [HttpPatch]
+    [Route("categories/{id}")]
+    public Service UpdateServiceCategories([FromQuery] UpdateServiceCategories updateServiceCategories)
+    {
+        return _randomDataGenerator.GenerateValues<Service>(updateServiceCategories.ServiceId);
+    }
+
     /** <summary>Create a new timeslot.</summary>
       * <param name="id" example="111b771c-5c2b-436d-8500-783fb5e2edff">GUID of a service for which timeslot is being created.</param>
       * <remarks>Note: our mocked service instance has a duration of 15 minutes. Therefore, there will be 15 minute difference between `From` and `To`.</remarks>
