@@ -7,12 +7,12 @@ using psp_bugos.RandomDataGenerator;
 namespace psp_bugos.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class CategoryController : Controller
+    [Route("categories")]
+    public class CategoriesController : Controller
     {
         private readonly IRandomDataGenerator _randomDataGenerator;
 
-        public CategoryController(IRandomDataGenerator randomDataGenerator)
+        public CategoriesController(IRandomDataGenerator randomDataGenerator)
         {
             _randomDataGenerator = randomDataGenerator;
         }

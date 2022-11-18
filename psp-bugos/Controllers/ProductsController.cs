@@ -3,6 +3,7 @@ using psp_bugos.Models;
 using psp_bugos.Models.ContinuationTokens;
 using psp_bugos.RandomDataGenerator;
 using psp_bugos.Utilities;
+using System.ComponentModel.DataAnnotations;
 
 namespace psp_bugos.Controllers
 {
@@ -176,9 +177,7 @@ namespace psp_bugos.Controllers
         {
             var inventory = _randomDataGenerator.GenerateValues<Inventory>(id);
             inventory.BusinessLocationId = businessLocationId;
-            inventory.Supply = supply is int nonNullSupply
-                ? nonNullSupply
-                : inventory.Supply;
+            inventory.Supply = supply ?? inventory.Supply;
 
             return Ok(inventory);
         }
@@ -219,6 +218,64 @@ namespace psp_bugos.Controllers
             var product = _randomDataGenerator.GenerateValues<Product>();
             product = DtoMapper.MapDtoOnDto(updateProduct, product);
             return Ok(product);
+        }
+
+        /** <summary>Add an existing category to the product.</summary>
+         * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Product id.</param>
+         * <param name="categoryId" example="aa4a7a53-5e8e-40f7-9e29-4a220bf03f60">Id of an existing category that was created via categories endpoint.</param>
+         * <response code="200">Returns a categoryItem.</response>
+         */
+        [HttpPost]
+        [Route("{id}/categories")]
+        public ActionResult AddProductCategory(Guid id, [Required] Guid categoryId)
+        {
+            var categoryItem = _randomDataGenerator.GenerateValues<CategoryItem>();
+            categoryItem.ProductId = id;
+            categoryItem.CategoryId = categoryId;
+            categoryItem.ServiceId = null;
+
+            return Ok(categoryItem);
+        }
+
+        /** <summary>Delete an existing category from the product.</summary>
+         * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Product id.</param>
+         * <param name="categoryItemId" example="aa4a7a53-5e8e-40f7-9e29-4a220bf03f60">Id of a category item (an id of an object received from POST products/id/categories endpoint).</param>
+         * <response code="200"></response>
+         */
+        [HttpDelete]
+        [Route("{id}/categories/{categoryItemId}")]
+        public ActionResult RemoveProductCategory(Guid id, Guid categoryItemId)
+        {
+            return Ok();
+        }
+
+        /** <summary>Add an existing discount to the product.</summary>
+         * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Product id.</param>
+         * <param name="discountId" example="aa4a7a53-5e8e-40f7-9e29-4a220bf03f60">Id of an existing discount that was created via discounts endpoint.</param>
+         * <response code="200">Returns a discountItem.</response>
+         */
+        [HttpPost]
+        [Route("{id}/discounts")]
+        public ActionResult AddProductDiscount(Guid id, [Required] Guid discountId)
+        {
+            var discountItem = _randomDataGenerator.GenerateValues<DiscountItem>();
+            discountItem.ProductId = id;
+            discountItem.DiscountId = discountId;
+            discountItem.ServiceId = null;
+
+            return Ok(discountItem);
+        }
+
+        /** <summary>Delete an existing discount from the product.</summary>
+         * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Product id.</param>
+         * <param name="discountItemId" example="aa4a7a53-5e8e-40f7-9e29-4a220bf03f60">Id of a discount item (an id of an object received from POST products/id/discounts endpoint).</param>
+         * <response code="200"></response>
+         */
+        [HttpDelete]
+        [Route("{id}/discounts/{discountItemId}")]
+        public ActionResult RemoveProductDiscount(Guid id, Guid discountItemId)
+        {
+            return Ok();
         }
     }
 }
