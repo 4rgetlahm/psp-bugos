@@ -6,7 +6,7 @@ public record Shipment
     
     public Guid BusinessId { get; set; }
     
-    public Guid PaymentId { get; set; }
+    public Guid OrderId { get; set; }
     
     public Guid TrackingId { get; set; }
 

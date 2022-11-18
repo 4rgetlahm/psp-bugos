@@ -16,7 +16,6 @@ public record CreateService
     [BindRequired]
     public decimal Price { get; set; }
 
-
     /** <summary>Tax rate (in percent).</summary>
      *  <example>21.00</example>
      */

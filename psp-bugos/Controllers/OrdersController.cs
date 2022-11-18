@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using psp_bugos.Models;
 using psp_bugos.RandomDataGenerator;
+using psp_bugos.Utilities;
 
 namespace psp_bugos.Controllers;
 
@@ -15,7 +16,7 @@ public class OrdersController : Controller
         _randomDataGenerator = randomDataGenerator;
     }
 
-    /** <summary>Confirm order with needed information provided.</summary>
+    /** <summary>Place order with needed information provided.</summary>
       * <param name="customerId" example="e0299fb1-487a-443b-9b34-c6d08493c04d">Customer id</param>
       * <param name="orderId" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Order id</param>
       * <param name="type" example="1"> Payment type.</param>
@@ -23,14 +24,14 @@ public class OrdersController : Controller
       * <remarks>Note: Currently we need to discuss what is needed information.</remarks>
       */
     [HttpPost]
-    [Route("{orderId}/confirm")]
-    public ActionResult ConfirmOrder(Guid customerId, Guid orderId, PaymentType type)
+    [Route("{orderId}/place")]
+    public ActionResult PlaceOrder(Guid customerId, Guid orderId, PaymentType type)
     {
         // dont know what is "needed information" in the task
         return Ok();
     }
 
-    /** <summary>Confirm order without registered user.</summary>
+    /** <summary>Place order without registered user.</summary>
       * <param name="locationId" example="e0299fb1-487a-443b-9b34-c6d08493c04d">Location id</param>
       * <param name="orderId" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Order id</param>
       * <param name="tips" example="10.00"> Tips.</param>
@@ -39,8 +40,8 @@ public class OrdersController : Controller
       * <remarks>Note: Currently we need to discuss what is needed information.</remarks>
       */
     [HttpPost]
-    [Route("{orderId}/confirm/unregistered")]
-    public ActionResult ConfirmOrderUnregistered(PaymentType type, Guid orderId, Guid locationId, decimal tips)
+    [Route("{orderId}/place/unregistered")]
+    public ActionResult PlaceOrderUnregistered(PaymentType type, Guid orderId, Guid locationId, decimal tips)
     {
         return Ok();
     }
@@ -72,7 +73,7 @@ public class OrdersController : Controller
         order.Comment = comment;
         return Ok(order);
     }
-    
+
     /** <summary>Add employee to the order</summary>
         * <param name="orderId" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Order id</param>
         * <param name="employeeId" example="f9aaafb1-487a-443b-9b34-c6d08493c04d"> Employee id.</param>
@@ -86,4 +87,37 @@ public class OrdersController : Controller
         order.EmployeeId = employeeId;
         return Ok(order);
     }
+
+    /** <summary>Confirm the order.</summary>
+    * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Order id.</param>
+    * <response code="200">Order with updated status.</response>
+    */
+    [HttpPatch]
+    [Route("{id}/confirm")]
+    public ActionResult ConfirmOrder(Guid id)
+    {
+        var order = _randomDataGenerator.GenerateValues<Order>(id);
+        order.Status = OrderStatus.Confirmed;
+        return Ok(order);
+    }
+
+    /** <summary>Create a shipment for the order.</summary>
+    * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Order id.</param>
+    * <response code="200">Returns created shipment for the order.</response>
+    */
+    [HttpPost]
+    [Route("{id}/createShipment")]
+    public ActionResult CreateShipment(Guid id, [FromQuery] CreateShipment createShipment)
+    {
+        var shipment = _randomDataGenerator.GenerateValues<Shipment>();
+        shipment = DtoMapper.MapDtoOnDto(createShipment, shipment);
+        shipment.OrderId = id;
+        shipment.Status = ShipmentStatus.Created;
+        shipment.AddressLine2 = string.IsNullOrEmpty(createShipment.AddressLine2)
+            ? ""
+            : createShipment.AddressLine2;
+
+        return Ok(shipment);
+    }
+
 }
