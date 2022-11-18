@@ -178,7 +178,6 @@ namespace psp_bugos.Controllers
             var inventory = _randomDataGenerator.GenerateValues<Inventory>(id);
             inventory.BusinessLocationId = businessLocationId;
             inventory.Supply = supply ?? inventory.Supply;
-
             return Ok(inventory);
         }
 
