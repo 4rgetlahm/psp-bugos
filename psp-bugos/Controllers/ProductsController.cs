@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using psp_bugos.Models;
 using psp_bugos.Models.ContinuationTokens;
 using psp_bugos.RandomDataGenerator;
+using psp_bugos.Utilities;
 
 namespace psp_bugos.Controllers
 {
@@ -64,7 +65,7 @@ namespace psp_bugos.Controllers
             * <response code="404">No products by specific id found.</response>
             */
         [HttpGet]
-        [Route("{id:guid}")]
+        [Route("{id:guid}/description")]
         public object GetDescription(Guid id)
         {
             var result = _randomDataGenerator.GenerateValues<Product>(id);
@@ -162,6 +163,59 @@ namespace psp_bugos.Controllers
         public ActionResult RemoveProductFromCart(Guid id)
         {
             return Ok();
+        }
+
+        /** <summary>Remove product in a cart.</summary>
+            * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Product id.</param>
+            * <param name="businessLocationId" example="f9299fb1-487a-443b-9b34-c6d08493c04d">BusinessLocation, where product is stored, id.</param>
+            * <response code="200">Returns a modified inventory.</response>
+            */
+        [HttpPatch]
+        [Route("{id}/inventoryLocation/{businessLocationId}")]
+        public ActionResult UpdateInventory(Guid id, Guid businessLocationId, int? supply)
+        {
+            var inventory = _randomDataGenerator.GenerateValues<Inventory>(id);
+            inventory.BusinessLocationId = businessLocationId;
+            inventory.Supply = supply ?? inventory.Supply;
+            return Ok(inventory);
+        }
+
+        /** <summary>Create a new product.</summary>
+         * <response code="200">Returns a newly created product.</response>
+         */
+        [HttpPost]
+        public ActionResult CreateProduct([FromQuery] CreateProduct createProduct)
+        {
+            var product = _randomDataGenerator.GenerateValues<Product>();
+            product = DtoMapper.MapDtoOnDto(createProduct, product);
+            product.ImageUrl = string.IsNullOrEmpty(createProduct.ImageUrl)
+                ? ""
+                : createProduct.ImageUrl;
+
+            return Ok(product);
+        }
+
+        /** <summary>Get an existing product.</summary>
+         * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Product id.</param>
+         * <response code="200">Returns an appropriate product.</response>
+         */
+        [HttpGet]
+        [Route("{id}")]
+        public ActionResult GetProduct(Guid id)
+        {
+            var product = _randomDataGenerator.GenerateValues<Product>(id);
+            return Ok(product);
+        }
+
+        /** <summary>Update (edit) an existing product.</summary>
+         * <response code="200">Returns a modified product.</response>
+         */
+        [HttpPatch]
+        public ActionResult UpdateProduct([FromQuery] UpdateProduct updateProduct)
+        {
+            var product = _randomDataGenerator.GenerateValues<Product>();
+            product = DtoMapper.MapDtoOnDto(updateProduct, product);
+            return Ok(product);
         }
     }
 }

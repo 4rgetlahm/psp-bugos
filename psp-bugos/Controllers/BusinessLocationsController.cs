@@ -41,6 +41,7 @@ public class BusinessLocationsController : Controller
     }
 
     /** <summary>Delete an existing business location.</summary>
+      * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Business location id.</param>
       */
     [HttpDelete]
     [Route("{id}")]
