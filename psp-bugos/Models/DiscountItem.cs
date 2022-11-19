@@ -8,5 +8,5 @@ public record DiscountItem
     
     public Guid ProductId { get; set; }
     
-    public Guid ServiceId { get; set; }
+    public Guid? ServiceId { get; set; }
 }

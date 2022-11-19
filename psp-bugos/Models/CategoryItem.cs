@@ -6,7 +6,7 @@ public record CategoryItem
     
     public Guid CategoryId { get; set; }
     
-    public Guid ProductId { get; set; }
+    public Guid? ProductId { get; set; }
 
-    public Guid ServiceId { get; set; }
+    public Guid? ServiceId { get; set; }
 }
