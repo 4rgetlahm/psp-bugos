@@ -1,0 +1,3945 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "psp-bugos",
+    "version": "1.0"
+  },
+  "paths": {
+    "/AccountManagement/employee/privileges/edit": {
+      "patch": {
+        "tags": [
+          "AccountManagement"
+        ],
+        "summary": "Update employee account privileges",
+        "requestBody": {
+          "description": "Filled model with employee privilege change information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEmployeePrivileges"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEmployeePrivileges"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEmployeePrivileges"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "If no issues occured and privileges changed"
+          },
+          "400": {
+            "description": "Returns what error occured"
+          }
+        }
+      }
+    },
+    "/employees": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Get all empployees.",
+        "parameters": [
+          {
+            "name": "continuationToken",
+            "in": "query",
+            "description": "Token used for pagination(get next top employees)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "top",
+            "in": "query",
+            "description": "Number of employees to be returned in one badge. (maximum - 1000)",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            },
+            "example": 100
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a created business location.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeAccountIEnumerableContinuationTokenResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeAccountIEnumerableContinuationTokenResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeAccountIEnumerableContinuationTokenResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incorrect request: top value larger than 1000 or negative."
+          }
+        }
+      }
+    },
+    "/employees/{id}": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Get empployee.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Employee id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "e0299fb1-487a-443b-9b34-c6d08493c04d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns employee account data.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeAccount"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeAccount"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeAccount"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Employee not found(implement in 3rd task)."
+          }
+        }
+      }
+    },
+    "/customers/{id}": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Get customer.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Customer id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "e0299fb1-487a-443b-9b34-c6d08493c04d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns customer account data.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerAccount"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerAccount"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerAccount"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Customer not found(implement in 3rd task)."
+          }
+        }
+      }
+    },
+    "/create": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Create an account",
+        "requestBody": {
+          "description": "Filled model with required account information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAccount"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAccount"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAccount"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns JWT access token"
+          },
+          "400": {
+            "description": "Returns what error occured"
+          }
+        }
+      }
+    },
+    "/verify/create": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Verify (complete) account creation",
+        "requestBody": {
+          "description": "Filled model with required verification information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Verification"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Verification"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Verification"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "If verification completed successfully"
+          },
+          "400": {
+            "description": "Returns what error occured"
+          }
+        }
+      }
+    },
+    "/update": {
+      "patch": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Request an update to account with new information",
+        "requestBody": {
+          "description": "Filled model with new account information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAccount"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAccount"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAccount"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "If request completed successfully"
+          },
+          "400": {
+            "description": "Returns what error occured"
+          }
+        }
+      }
+    },
+    "/verify/update": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Verify (complete) account update",
+        "requestBody": {
+          "description": "Filled model with required verification information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Verification"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Verification"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Verification"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "If verification completed successfully"
+          },
+          "400": {
+            "description": "Returns what error occured"
+          }
+        }
+      }
+    },
+    "/delete": {
+      "delete": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Request an account deletion",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "query",
+            "description": "GUID of an account",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If deletion request was created successfully"
+          },
+          "400": {
+            "description": "Returns what error occured"
+          }
+        }
+      }
+    },
+    "/verify/delete": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Verify (complete) account deletion",
+        "requestBody": {
+          "description": "Filled model with required verification information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Verification"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Verification"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Verification"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "If verification completed successfully"
+          },
+          "400": {
+            "description": "Returns what error occured"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Login to an account",
+        "requestBody": {
+          "description": "Filled model with account login information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns JWT access token"
+          },
+          "400": {
+            "description": "Returns what error occured"
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Revoke JWT access token",
+        "requestBody": {
+          "description": "Filled model with logout request information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "If revoking was successful"
+          },
+          "400": {
+            "description": "Returns what error occured"
+          }
+        }
+      }
+    },
+    "/bookings/{id}/confirm": {
+      "patch": {
+        "tags": [
+          "Bookings"
+        ],
+        "summary": "Confirm a booking and notify its customer about it.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "GUID of the booking.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "aa4a7a53-5e8e-40f7-9e29-4a220bf03f60"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a modified booking with updated state.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bookings/{id}/refund": {
+      "patch": {
+        "tags": [
+          "Bookings"
+        ],
+        "summary": "Grant a customer a refund for a booking he has made.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "GUID of the booking.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "aa4a7a53-5e8e-40f7-9e29-4a220bf03f60"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a modified booking with updated state.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bookings/{id}/cancel": {
+      "patch": {
+        "tags": [
+          "Bookings"
+        ],
+        "summary": "Cancel a booking.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "GUID of the booking.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "aa4a7a53-5e8e-40f7-9e29-4a220bf03f60"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a modified booking with updated state.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bookings/{id}/reschedule": {
+      "patch": {
+        "tags": [
+          "Bookings"
+        ],
+        "summary": "Reschedule a booking.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "GUID of the booking.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "aa4a7a53-5e8e-40f7-9e29-4a220bf03f60"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a modified booking with updated state.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bookings/{id}/complete": {
+      "patch": {
+        "tags": [
+          "Bookings"
+        ],
+        "summary": "Complete a booking, indicating that a client has arrived.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "GUID of the booking.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "aa4a7a53-5e8e-40f7-9e29-4a220bf03f60"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a modified booking with updated state.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/businesses": {
+      "get": {
+        "tags": [
+          "Businesses"
+        ],
+        "summary": "Get all businesses.",
+        "parameters": [
+          {
+            "name": "continuationToken",
+            "in": "query",
+            "description": "Token used for pagination(get next top businesses)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "top",
+            "in": "query",
+            "description": "Number of businesses to be returned in one badge. (maximum - 1000)",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            },
+            "example": 100
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a all businesses.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessLocationIEnumerableContinuationTokenResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessLocationIEnumerableContinuationTokenResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessLocationIEnumerableContinuationTokenResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incorrect request: top value larger than 1000 or negative."
+          }
+        }
+      }
+    },
+    "/businessLocations": {
+      "post": {
+        "tags": [
+          "BusinessLocations"
+        ],
+        "summary": "Create a business location.",
+        "parameters": [
+          {
+            "name": "businessId",
+            "in": "query",
+            "description": "GUID of a bussiness",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "2e816ad7-5cd7-4da0-bc93-879b36633207"
+            },
+            "example": "2e816ad7-5cd7-4da0-bc93-879b36633207"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name of a bussiness location.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "antiCaffeine"
+            },
+            "example": "antiCaffeine"
+          },
+          {
+            "name": "street",
+            "in": "query",
+            "description": "Street name (with street number).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "24 Evergreen Street"
+            },
+            "example": "24 Evergreen Street"
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "description": "City name.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Cork"
+            },
+            "example": "Cork"
+          },
+          {
+            "name": "zipCode",
+            "in": "query",
+            "description": "Postal (ZIP) code.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "T12 WP70"
+            },
+            "example": "T12 WP70"
+          },
+          {
+            "name": "phoneNumber",
+            "in": "query",
+            "description": "Genral phone number of that bussiness location.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "+37070070007"
+            },
+            "example": "+37070070007"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a created business location.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessLocation"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessLocation"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessLocation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/businessLocations/{id}": {
+      "patch": {
+        "tags": [
+          "BusinessLocations"
+        ],
+        "summary": "Update an existing business location.",
+        "parameters": [
+          {
+            "name": "businessId",
+            "in": "query",
+            "description": "GUID of a bussiness.",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "2e816ad7-5cd7-4da0-bc93-879b36633207"
+            },
+            "example": "2e816ad7-5cd7-4da0-bc93-879b36633207"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name of a bussiness location.",
+            "schema": {
+              "type": "string",
+              "example": "antiCaffeine"
+            },
+            "example": "antiCaffeine"
+          },
+          {
+            "name": "street",
+            "in": "query",
+            "description": "Street name (with street number).",
+            "schema": {
+              "type": "string",
+              "example": "24 Evergreen Street"
+            },
+            "example": "24 Evergreen Street"
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "description": "City name.",
+            "schema": {
+              "type": "string",
+              "example": "Cork"
+            },
+            "example": "Cork"
+          },
+          {
+            "name": "zipCode",
+            "in": "query",
+            "description": "Postal (ZIP) code.",
+            "schema": {
+              "type": "string",
+              "example": "T12 WP70"
+            },
+            "example": "T12 WP70"
+          },
+          {
+            "name": "phoneNumber",
+            "in": "query",
+            "description": "Genral phone number of that bussiness location.",
+            "schema": {
+              "type": "string",
+              "example": "+37070070007"
+            },
+            "example": "+37070070007"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a modified business location.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessLocation"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessLocation"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessLocation"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "BusinessLocations"
+        ],
+        "summary": "Delete an existing business location.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Business location id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/categories": {
+      "post": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Create a new category",
+        "requestBody": {
+          "description": "Filled create category model",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCategory"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCategory"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCategory"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Category is generated and returned",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error occured and it's message is returned"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Update category with new information",
+        "requestBody": {
+          "description": "Filled update category model",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCategory"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCategory"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCategory"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Category is updated and returned",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error occured and it's message is returned"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Delete category",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "query",
+            "description": "GUID of category",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "e0299fb1-487a-443b-9b34-c6d08493c04d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category is deleted"
+          },
+          "400": {
+            "description": "Error occured and it's message is returned"
+          }
+        }
+      }
+    },
+    "/discounts": {
+      "post": {
+        "tags": [
+          "Discounts"
+        ],
+        "summary": "Create a new Discount",
+        "requestBody": {
+          "description": "Filled create Discount model",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDiscount"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDiscount"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDiscount"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Discount is generated and returned",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Discount"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Discount"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Discount"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error occured and it's message is returned"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Discounts"
+        ],
+        "summary": "Update Discount with new information",
+        "requestBody": {
+          "description": "Filled update Discount model",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDiscount"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDiscount"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDiscount"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Discount is updated and returned",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Discount"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Discount"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Discount"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error occured and it's message is returned"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Discounts"
+        ],
+        "summary": "Delete Discount",
+        "parameters": [
+          {
+            "name": "discountId",
+            "in": "query",
+            "description": "GUID of Discount",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "e0299fb1-487a-443b-9b34-c6d08493c04d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Discount is deleted"
+          },
+          "400": {
+            "description": "Error occured and it's message is returned"
+          }
+        }
+      }
+    },
+    "/orders/{orderId}/place": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Place order with needed information provided.",
+        "description": "Note: Currently we need to discuss what is needed information.",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "query",
+            "description": "Customer id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "e0299fb1-487a-443b-9b34-c6d08493c04d"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "Order id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Payment type.",
+            "schema": {
+              "$ref": "#/components/schemas/PaymentType"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order has been confirmed."
+          }
+        }
+      }
+    },
+    "/orders/{orderId}/place/unregistered": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Place order without registered user.",
+        "description": "Note: Currently we need to discuss what is needed information.",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Payment type.",
+            "schema": {
+              "$ref": "#/components/schemas/PaymentType"
+            },
+            "example": 1
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "Order id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          },
+          {
+            "name": "locationId",
+            "in": "query",
+            "description": "Location id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "e0299fb1-487a-443b-9b34-c6d08493c04d"
+          },
+          {
+            "name": "tips",
+            "in": "query",
+            "description": "Tips.",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            },
+            "example": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order has been confirmed."
+          }
+        }
+      }
+    },
+    "/orders/{orderId}/addDate": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Add date to the order",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "Order id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "description": "Order date.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2022-12-24"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Date has been added to the order."
+          }
+        }
+      }
+    },
+    "/orders/{orderId}/addComment": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Add comment to the order",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "Order id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          }
+        ],
+        "requestBody": {
+          "description": "Order comments.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              },
+              "example": "I want no onions"
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              },
+              "example": "I want no onions"
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string"
+              },
+              "example": "I want no onions"
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Comment has been added to the order."
+          }
+        }
+      }
+    },
+    "/orders/{orderId}/employee/add/{employeeId}": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Add employee to the order",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "Order id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          },
+          {
+            "name": "employeeId",
+            "in": "path",
+            "description": "Employee id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9aaafb1-487a-443b-9b34-c6d08493c04d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Employee has been added to the order."
+          }
+        }
+      }
+    },
+    "/orders/{id}/confirm": {
+      "patch": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Confirm the order.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Order id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order with updated status."
+          }
+        }
+      }
+    },
+    "/orders/{id}/createShipment": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Create a shipment for the order.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Order id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          },
+          {
+            "name": "businessId",
+            "in": "query",
+            "description": "No idea why this field was included in the data model.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "160de46e-b037-45d1-bc57-890c487172a6"
+            },
+            "example": "160de46e-b037-45d1-bc57-890c487172a6"
+          },
+          {
+            "name": "recipient",
+            "in": "query",
+            "description": "Recipient name (a customer might order something for someone else).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Micius"
+            },
+            "example": "Micius"
+          },
+          {
+            "name": "phoneNo",
+            "in": "query",
+            "description": "Phone number.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "+37070070007"
+            },
+            "example": "+37070070007"
+          },
+          {
+            "name": "addressLine1",
+            "in": "query",
+            "description": "Required address line.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Didlaukio g. 47"
+            },
+            "example": "Didlaukio g. 47"
+          },
+          {
+            "name": "addressLine2",
+            "in": "query",
+            "description": "Optional address line.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "description": "City.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Vilnius"
+            },
+            "example": "Vilnius"
+          },
+          {
+            "name": "zipCode",
+            "in": "query",
+            "description": "Postal (ZIP) code.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "LT-08303"
+            },
+            "example": "LT-08303"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns created shipment for the order."
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get all products.",
+        "parameters": [
+          {
+            "name": "continuationToken",
+            "in": "query",
+            "description": "Token used for pagination(get next top products).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "top",
+            "in": "query",
+            "description": "Number of products to be returned in one badge. (maximum - 1000).",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            },
+            "example": 100
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a all products.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductIEnumerableContinuationTokenResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductIEnumerableContinuationTokenResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductIEnumerableContinuationTokenResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incorrect request: top value larger than 1000 or negative."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Create a new product.",
+        "parameters": [
+          {
+            "name": "businessId",
+            "in": "query",
+            "description": "No idea why this field was included in the data model.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "160de46e-b037-45d1-bc57-890c487172a6"
+            },
+            "example": "160de46e-b037-45d1-bc57-890c487172a6"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name of the product.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Anger management toy"
+            },
+            "example": "Anger management toy"
+          },
+          {
+            "name": "price",
+            "in": "query",
+            "description": "Price.",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 120
+            },
+            "example": 120
+          },
+          {
+            "name": "taxRate",
+            "in": "query",
+            "description": "Tax rate (in percent).",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 21
+            },
+            "example": 21
+          },
+          {
+            "name": "isEnabled",
+            "in": "query",
+            "description": "Availability of the product.",
+            "required": true,
+            "schema": {
+              "type": "boolean",
+              "example": true
+            },
+            "example": true
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "description": "Description of a product.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Makes you feel better."
+            },
+            "example": "Makes you feel better."
+          },
+          {
+            "name": "imageUrl",
+            "in": "query",
+            "description": "URL to the product's picture.",
+            "schema": {
+              "type": "string",
+              "example": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Wooden_toys_%28cropped%29.JPG/1280px-Wooden_toys_%28cropped%29.JPG"
+            },
+            "example": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Wooden_toys_%28cropped%29.JPG/1280px-Wooden_toys_%28cropped%29.JPG"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a newly created product."
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Update (edit) an existing product.",
+        "parameters": [
+          {
+            "name": "businessId",
+            "in": "query",
+            "description": "No idea why this field was included in the data model.",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "160de46e-b037-45d1-bc57-890c487172a6"
+            },
+            "example": "160de46e-b037-45d1-bc57-890c487172a6"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name of the product.",
+            "schema": {
+              "type": "string",
+              "example": "Anger management toy"
+            },
+            "example": "Anger management toy"
+          },
+          {
+            "name": "price",
+            "in": "query",
+            "description": "Price.",
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 120
+            },
+            "example": 120
+          },
+          {
+            "name": "taxRate",
+            "in": "query",
+            "description": "Tax rate (in percent).",
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 21
+            },
+            "example": 21
+          },
+          {
+            "name": "isEnabled",
+            "in": "query",
+            "description": "Availability of the product.",
+            "schema": {
+              "type": "boolean",
+              "example": true
+            },
+            "example": true
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "description": "Description of a product.",
+            "schema": {
+              "type": "string",
+              "example": "Makes you feel better."
+            },
+            "example": "Makes you feel better."
+          },
+          {
+            "name": "imageUrl",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a modified product."
+          }
+        }
+      }
+    },
+    "/products/find/name/{name}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get product by name.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Product name.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "banana"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returned a specific product.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No products by the specified name found."
+          }
+        }
+      }
+    },
+    "/products/{id}/description": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get product description.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returned a specific product description."
+          },
+          "404": {
+            "description": "No products by specific id found."
+          }
+        }
+      }
+    },
+    "/products/cart": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get products cart.",
+        "requestBody": {
+          "description": "Product ids in the cart.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returned cart data successfully.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/find/category/{category}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get products by category.",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "description": "Product category.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Fruits"
+          },
+          {
+            "name": "continuationToken",
+            "in": "query",
+            "description": "Token used for pagination(get next top products).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "top",
+            "in": "query",
+            "description": "Number of products to be returned in one badge. (maximum - 1000).",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            },
+            "example": 100
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns products.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductIEnumerableContinuationTokenResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductIEnumerableContinuationTokenResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductIEnumerableContinuationTokenResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incorrect request: top value larger than 1000 or negative."
+          }
+        }
+      }
+    },
+    "/products/cart/add/{id}": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Add product to cart.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Product amount to be added.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returned cart data successfully."
+          },
+          "400": {
+            "description": "Incorrect request: count value larger than 1000 or negative."
+          },
+          "404": {
+            "description": "Product not found."
+          }
+        }
+      }
+    },
+    "/products/cart/update/{id}": {
+      "patch": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Update products in a cart.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Product amount to be added.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returned cart data successfully."
+          },
+          "400": {
+            "description": "Incorrect request: count value larger than 1000 or negative."
+          },
+          "404": {
+            "description": "Product not found."
+          }
+        }
+      }
+    },
+    "/products/cart/remove/{id}": {
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Remove product in a cart.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returned cart data successfully."
+          },
+          "404": {
+            "description": "Product not found."
+          }
+        }
+      }
+    },
+    "/products/{id}/inventoryLocation/{businessLocationId}": {
+      "patch": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Remove product in a cart.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          },
+          {
+            "name": "businessLocationId",
+            "in": "path",
+            "description": "BusinessLocation, where product is stored, id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          },
+          {
+            "name": "supply",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a modified inventory."
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get an existing product.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns an appropriate product."
+          }
+        }
+      }
+    },
+    "/products/{id}/categories": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Add an existing category to the product.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "description": "Id of an existing category that was created via categories endpoint.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "aa4a7a53-5e8e-40f7-9e29-4a220bf03f60"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a categoryItem."
+          }
+        }
+      }
+    },
+    "/products/{id}/categories/{categoryItemId}": {
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Delete an existing category from the product.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          },
+          {
+            "name": "categoryItemId",
+            "in": "path",
+            "description": "Id of a category item (an id of an object received from POST products/id/categories endpoint).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "aa4a7a53-5e8e-40f7-9e29-4a220bf03f60"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/products/{id}/discounts": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Add an existing discount to the product.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          },
+          {
+            "name": "discountId",
+            "in": "query",
+            "description": "Id of an existing discount that was created via discounts endpoint.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "aa4a7a53-5e8e-40f7-9e29-4a220bf03f60"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a discountItem."
+          }
+        }
+      }
+    },
+    "/products/{id}/discounts/{discountItemId}": {
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Delete an existing discount from the product.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          },
+          {
+            "name": "discountItemId",
+            "in": "path",
+            "description": "Id of a discount item (an id of an object received from POST products/id/discounts endpoint).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "aa4a7a53-5e8e-40f7-9e29-4a220bf03f60"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/services/find/name/{name}": {
+      "get": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Get service by name.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Service name.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Barber"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returned a specific service.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Service"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Service"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Service"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No service by the specified name found."
+          }
+        }
+      }
+    },
+    "/services/{id}": {
+      "get": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Get service description.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Service id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returned a specific service description."
+          },
+          "404": {
+            "description": "No services by specific id found."
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Update an existing service.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name of the service.",
+            "schema": {
+              "type": "string",
+              "example": "Thai masssage"
+            },
+            "example": "Thai masssage"
+          },
+          {
+            "name": "price",
+            "in": "query",
+            "description": "Price of the service.",
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 45.55
+            },
+            "example": 45.55
+          },
+          {
+            "name": "taxRate",
+            "in": "query",
+            "description": "Tax rate (in percent).",
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 21
+            },
+            "example": 21
+          },
+          {
+            "name": "duration",
+            "in": "query",
+            "description": "Duration of the service (hh:mm:ss).",
+            "schema": {
+              "type": "string",
+              "example": "00:15:00"
+            },
+            "example": "00:15:00"
+          },
+          {
+            "name": "isEnabled",
+            "in": "query",
+            "description": "Availability of the service.",
+            "schema": {
+              "type": "boolean",
+              "example": true
+            },
+            "example": true
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "description": "Description of a service.",
+            "schema": {
+              "type": "string",
+              "example": "Thai massage is a traditional therapy combining acupressure."
+            },
+            "example": "Thai massage is a traditional therapy combining acupressure."
+          },
+          {
+            "name": "imageUrl",
+            "in": "query",
+            "description": "URL to the picture.",
+            "schema": {
+              "type": "string",
+              "example": "https://en.wikipedia.org/wiki/Thai_massage#/media/File:Thaimassage.jpg"
+            },
+            "example": "https://en.wikipedia.org/wiki/Thai_massage#/media/File:Thaimassage.jpg"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a modified service.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Service"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Service"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Service"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/services/cart": {
+      "post": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Get services cart.",
+        "requestBody": {
+          "description": "Service ids in the cart.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returned cart data successfully.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Service"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Service"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Service"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/services/find/category/{category}": {
+      "get": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Get services by category.",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "description": "Service category.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Barbershop"
+          },
+          {
+            "name": "continuationToken",
+            "in": "query",
+            "description": "Token used for pagination(get next top products).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "top",
+            "in": "query",
+            "description": "Number of services to be returned in one badge. (maximum - 1000).",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            },
+            "example": 100
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns services.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceIEnumerableContinuationTokenResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceIEnumerableContinuationTokenResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceIEnumerableContinuationTokenResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incorrect request: top value larger than 1000 or negative."
+          }
+        }
+      }
+    },
+    "/services/cart/add/{id}": {
+      "post": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Add service to cart.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returned cart data successfully."
+          },
+          "404": {
+            "description": "Service not found."
+          }
+        }
+      }
+    },
+    "/services/cart/update/{id}": {
+      "patch": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Update services in a cart.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Service id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returned cart data successfully."
+          },
+          "404": {
+            "description": "Service not found."
+          }
+        }
+      }
+    },
+    "/services/cart/remove/{id}": {
+      "delete": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Remove service in a cart.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Service id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returned cart data successfully."
+          },
+          "404": {
+            "description": "Service not found."
+          }
+        }
+      }
+    },
+    "/services/provideInformation": {
+      "post": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Provide service information",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Service id.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Provided information about service."
+          },
+          "404": {
+            "description": "Service not found."
+          }
+        }
+      }
+    },
+    "/services": {
+      "post": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Create a new service.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name of the service.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Thai masssage"
+            },
+            "example": "Thai masssage"
+          },
+          {
+            "name": "price",
+            "in": "query",
+            "description": "Price of the service.",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 45.55
+            },
+            "example": 45.55
+          },
+          {
+            "name": "taxRate",
+            "in": "query",
+            "description": "Tax rate (in percent).",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 21
+            },
+            "example": 21
+          },
+          {
+            "name": "duration",
+            "in": "query",
+            "description": "Duration of the service (hh:mm:ss).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "00:15:00"
+            },
+            "example": "00:15:00"
+          },
+          {
+            "name": "isEnabled",
+            "in": "query",
+            "description": "Availability of the service.",
+            "required": true,
+            "schema": {
+              "type": "boolean",
+              "example": true
+            },
+            "example": true
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "description": "Description of a service.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Thai massage is a traditional therapy combining acupressure."
+            },
+            "example": "Thai massage is a traditional therapy combining acupressure."
+          },
+          {
+            "name": "imageUrl",
+            "in": "query",
+            "description": "URL to the picture.",
+            "schema": {
+              "type": "string",
+              "example": "https://en.wikipedia.org/wiki/Thai_massage#/media/File:Thaimassage.jpg"
+            },
+            "example": "https://en.wikipedia.org/wiki/Thai_massage#/media/File:Thaimassage.jpg"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a created service.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Service"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Service"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Service"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/services/categories/{id}": {
+      "patch": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Update an existing service's categories",
+        "parameters": [
+          {
+            "name": "serviceId",
+            "in": "query",
+            "description": "GUID of a service",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "2e816ad7-5cd7-4da0-bc93-879b36633207"
+            },
+            "example": "2e816ad7-5cd7-4da0-bc93-879b36633207"
+          },
+          {
+            "name": "addServiceCategories",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          },
+          {
+            "name": "removeServiceCategories",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a modified service.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Service"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Service"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Service"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/services/{id}/timeslot": {
+      "post": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Create a new timeslot.",
+        "description": "Note: our mocked service instance has a duration of 15 minutes. Therefore, there will be 15 minute difference between `From` and `To`.",
+        "parameters": [
+          {
+            "name": "assignedEmployeeId",
+            "in": "query",
+            "description": "GUID of an employee, who will deliver/provide the service.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "160de46e-b037-45d1-bc57-890c487172a6"
+            },
+            "example": "160de46e-b037-45d1-bc57-890c487172a6"
+          },
+          {
+            "name": "locationId",
+            "in": "query",
+            "description": "GUID of a bussiness location where the servvice should be provided.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "cda46ed8-fcf5-482f-836b-60621ebdde7d"
+            },
+            "example": "cda46ed8-fcf5-482f-836b-60621ebdde7d"
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Datetime when the service can be provided.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2022-11-03T16:00:00.000Z"
+            },
+            "example": "2022-11-03T16:00:00.000Z"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "GUID of a service for which timeslot is being created.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "111b771c-5c2b-436d-8500-783fb5e2edff"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a created timeslot.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimeSlot"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimeSlot"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimeSlot"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/services/{id}/timeslot/{timeSlotId}": {
+      "patch": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Update an existing timeslot.",
+        "description": "Note: our mocked service instance has a duration of 15 minutes. Therefore, there will be 15 minute difference between `From` and `To`.",
+        "parameters": [
+          {
+            "name": "assignedEmployeeId",
+            "in": "query",
+            "description": "GUID of an employee, who will deliver/provide the service.",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "160de46e-b037-45d1-bc57-890c487172a6"
+            },
+            "example": "160de46e-b037-45d1-bc57-890c487172a6"
+          },
+          {
+            "name": "locationId",
+            "in": "query",
+            "description": "GUID of a bussiness location where the servvice should be provided.",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "cda46ed8-fcf5-482f-836b-60621ebdde7d"
+            },
+            "example": "cda46ed8-fcf5-482f-836b-60621ebdde7d"
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Datetime when the service can be provided.",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2022-11-03T16:00:00.000Z"
+            },
+            "example": "2022-11-03T16:00:00.000Z"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "GUID of a timeslot's service.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "111b771c-5c2b-436d-8500-783fb5e2edff"
+          },
+          {
+            "name": "timeSlotId",
+            "in": "path",
+            "description": "GUID of a timeslot's service.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "222b771c-5c2b-436d-8500-783fb5e2edff"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a modified timeslot.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimeSlot"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimeSlot"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimeSlot"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Booking": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "businessId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "customerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "customerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "timeSlotId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "state": {
+            "$ref": "#/components/schemas/BookingState"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BookingState": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "BusinessLocation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "businessId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "zipCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BusinessLocationIEnumerableContinuationTokenResult": {
+        "type": "object",
+        "properties": {
+          "response": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BusinessLocation"
+            },
+            "nullable": true
+          },
+          "continuationToken": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "businessId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "parentCategoryId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateAccount": {
+        "type": "object",
+        "properties": {
+          "businessId": {
+            "type": "string",
+            "description": "GUID of a bussiness",
+            "format": "uuid",
+            "example": "2e816ad7-5cd7-4da0-bc93-879b36633207"
+          },
+          "username": {
+            "type": "string",
+            "description": "Username of an account",
+            "nullable": true,
+            "example": "Jonas360"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password of an account",
+            "nullable": true,
+            "example": "Sl4ptaz0di5"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of an account owner",
+            "nullable": true,
+            "example": "Jonas"
+          },
+          "surName": {
+            "type": "string",
+            "description": "Surname of an account ownern",
+            "nullable": true,
+            "example": "Jonaitis"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "Surname of an account owner",
+            "nullable": true,
+            "example": "+37064731567"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email of an account owner",
+            "nullable": true,
+            "example": "jonas@gmail.com"
+          },
+          "addressLine1": {
+            "type": "string",
+            "description": "First address line of an account owner",
+            "nullable": true,
+            "example": "Jono g. 24"
+          },
+          "addressLine2": {
+            "type": "string",
+            "description": "Second address line of an account owner",
+            "nullable": true,
+            "example": "Jono g. 24"
+          },
+          "city": {
+            "type": "string",
+            "description": "City of adresss line filled in AdressLines",
+            "nullable": true,
+            "example": "Jono g. 24"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateCategory": {
+        "type": "object",
+        "properties": {
+          "businessId": {
+            "type": "string",
+            "description": "GUID of a bussiness",
+            "format": "uuid",
+            "nullable": true,
+            "example": "2e816ad7-5cd7-4da0-bc93-879b36633207"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of category",
+            "nullable": true,
+            "example": "Beauty"
+          },
+          "parentGuid": {
+            "type": "string",
+            "description": "GUID of a parent category",
+            "format": "uuid",
+            "nullable": true,
+            "example": "8e816af7-5cd7-4da0-bc93-879b36633207"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateDiscount": {
+        "type": "object",
+        "properties": {
+          "businessId": {
+            "type": "string",
+            "description": "GUID of a bussiness",
+            "format": "uuid",
+            "nullable": true,
+            "example": "2e816ad7-5cd7-4da0-bc93-879b36633207"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of discount",
+            "nullable": true,
+            "example": "Halloween discount"
+          },
+          "rate": {
+            "type": "integer",
+            "description": "Discount rate",
+            "format": "int32",
+            "nullable": true,
+            "example": 20
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerAccount": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "businessId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "surName": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLine1": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLine2": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Discount": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "businessId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "rate": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmployeeAccount": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "businessId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "surName": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLine1": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLine2": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "privileges": {
+            "$ref": "#/components/schemas/Privileges"
+          },
+          "zipCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmployeeAccountIEnumerableContinuationTokenResult": {
+        "type": "object",
+        "properties": {
+          "response": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EmployeeAccount"
+            },
+            "nullable": true
+          },
+          "continuationToken": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "Username of an account",
+            "nullable": true,
+            "example": "Jonas360"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password of an account",
+            "nullable": true,
+            "example": "f2q86a1v747AZZ"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LogoutRequest": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "description": "JWT Access Token",
+            "nullable": true,
+            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJ2ZXIiOjEsImlzcyI6Imh0dHBzOi8vc3lzdGVtLmNvbSIsImF1ZCI6Imh0dHBzOi8vc3lzdGVtLmNvbSIsInN1YiI6IjVhMzc1OGIxLWViYTQtNDZkNC1hNGU4LTQzMjMyN2E1ZDRiMyIsImlhdCI6MTY2NjMwNjg1NSwiZXhwIjoxNjg3NzgzNjYwfQ"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentType": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "Privileges": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "businessId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "taxRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "isEnabled": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductIEnumerableContinuationTokenResult": {
+        "type": "object",
+        "properties": {
+          "response": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            },
+            "nullable": true
+          },
+          "continuationToken": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Service": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "businessId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "taxRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "duration": {
+            "type": "string",
+            "example": "00:00:00"
+          },
+          "isEnabled": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Category"
+            },
+            "nullable": true
+          },
+          "discounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Discount"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ServiceIEnumerableContinuationTokenResult": {
+        "type": "object",
+        "properties": {
+          "response": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Service"
+            },
+            "nullable": true
+          },
+          "continuationToken": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TimeSlot": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "assignedEmployeeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "locationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "serviceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "from": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "to": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateAccount": {
+        "type": "object",
+        "properties": {
+          "businessId": {
+            "type": "string",
+            "description": "GUID of an account",
+            "format": "uuid",
+            "example": "2e816ad7-5cd7-4da0-bc93-879b36633207"
+          },
+          "username": {
+            "type": "string",
+            "description": "Username of an account",
+            "nullable": true,
+            "example": "Jonas360"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password of an account",
+            "nullable": true,
+            "example": "Sl4ptaz0di5"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of an account owner",
+            "nullable": true,
+            "example": "Jonas"
+          },
+          "surName": {
+            "type": "string",
+            "description": "Surname of an account ownern",
+            "nullable": true,
+            "example": "Jonaitis"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "Surname of an account owner",
+            "nullable": true,
+            "example": "+37064731567"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email of an account owner",
+            "nullable": true,
+            "example": "jonas@gmail.com"
+          },
+          "addressLine1": {
+            "type": "string",
+            "description": "First address line of an account owner",
+            "nullable": true,
+            "example": "Jono g. 24"
+          },
+          "addressLine2": {
+            "type": "string",
+            "description": "Second address line of an account owner",
+            "nullable": true,
+            "example": "Jono g. 24"
+          },
+          "city": {
+            "type": "string",
+            "description": "City of adresss line filled in AdressLines",
+            "nullable": true,
+            "example": "Jono g. 24"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateCategory": {
+        "type": "object",
+        "properties": {
+          "categoryId": {
+            "type": "string",
+            "description": "GUID of a category",
+            "format": "uuid",
+            "nullable": true,
+            "example": "2e816ad7-5cd7-4da0-bc93-879b36633207"
+          },
+          "businessId": {
+            "type": "string",
+            "description": "GUID of a bussiness",
+            "format": "uuid",
+            "nullable": true,
+            "example": "2e816ad7-5cd7-4da0-bc93-879b36633207"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of category",
+            "nullable": true,
+            "example": "8e816af7-5cd7-4da0-bc93-879b36633207"
+          },
+          "parentGuid": {
+            "type": "string",
+            "description": "GUID of a parent category",
+            "format": "uuid",
+            "nullable": true,
+            "example": "8e816af7-5cd7-4da0-bc93-879b36633207"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateDiscount": {
+        "type": "object",
+        "properties": {
+          "discountId": {
+            "type": "string",
+            "description": "GUID of a discount",
+            "format": "uuid",
+            "nullable": true,
+            "example": "2e816ad7-5cd7-4da0-bc93-879b36633207"
+          },
+          "businessId": {
+            "type": "string",
+            "description": "GUID of a bussiness",
+            "format": "uuid",
+            "nullable": true,
+            "example": "2e816ad7-5cd7-4da0-bc93-879b36633207"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of discount",
+            "nullable": true,
+            "example": "Halloween discount"
+          },
+          "rate": {
+            "type": "integer",
+            "description": "Discount rate",
+            "format": "int32",
+            "nullable": true,
+            "example": 20
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateEmployeePrivileges": {
+        "type": "object",
+        "properties": {
+          "addEmployeePrivileges": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "removeEmployeePrivileges": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Verification": {
+        "type": "object",
+        "properties": {
+          "verificationToken": {
+            "type": "string",
+            "description": "Token that identifies  verification validity",
+            "nullable": true,
+            "example": "a5f7e39x9f41f7q3g1k7mn3c6s9ezz3g87y96q4g2aaaf9j2l8u21e3c7q52h5f3m1u4t5e3s3c5b45hgdr6f3v2n1"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
