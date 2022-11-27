@@ -166,7 +166,7 @@ namespace psp_bugos.Controllers
             return Ok();
         }
 
-        /** <summary>Remove product in a cart.</summary>
+        /** <summary>Update inventory.</summary>
             * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Product id.</param>
             * <param name="businessLocationId" example="f9299fb1-487a-443b-9b34-c6d08493c04d">BusinessLocation, where product is stored, id.</param>
             * <response code="200">Returns a modified inventory.</response>
@@ -246,6 +246,28 @@ namespace psp_bugos.Controllers
         public ActionResult RemoveProductCategory(Guid id, Guid categoryItemId)
         {
             return Ok();
+        }
+
+        /** <summary>Get all existing discounts (discountItems) that the product has.</summary>
+         * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Product id.</param>
+         * <response code="200">Returns discountItems.</response>
+         */
+        [HttpGet]
+        [Route("{id}/discounts")]
+        public ActionResult GetServiceDiscounts(Guid id)
+        {
+            var discountItems = new List<DiscountItem>();
+
+            for (var i = 0; i < 3; ++i)
+            {
+                var discountItem = _randomDataGenerator.GenerateValues<DiscountItem>();
+                discountItem.ProductId = id;
+                discountItem.ServiceId = null;
+
+                discountItems.Add(discountItem);
+            }
+
+            return Ok(discountItems);
         }
 
         /** <summary>Add an existing discount to the product.</summary>

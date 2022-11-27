@@ -18,14 +18,14 @@ public class OrdersController : Controller
 
     /** <summary>Place order with needed information provided.</summary>
       * <param name="customerId" example="e0299fb1-487a-443b-9b34-c6d08493c04d">Customer id</param>
-      * <param name="orderId" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Order id</param>
+      * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Order id</param>
       * <param name="type" example="1"> Payment type.</param>
       * <response code="200">Order has been confirmed.</response>
       * <remarks>Note: Currently we need to discuss what is needed information.</remarks>
       */
     [HttpPost]
-    [Route("{orderId}/place")]
-    public ActionResult PlaceOrder(Guid customerId, Guid orderId, PaymentType type)
+    [Route("{id}/place")]
+    public ActionResult PlaceOrder(Guid customerId, Guid id, PaymentType type)
     {
         // dont know what is "needed information" in the task
         return Ok();
@@ -33,58 +33,72 @@ public class OrdersController : Controller
 
     /** <summary>Place order without registered user.</summary>
       * <param name="locationId" example="e0299fb1-487a-443b-9b34-c6d08493c04d">Location id</param>
-      * <param name="orderId" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Order id</param>
+      * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Order id</param>
       * <param name="tips" example="10.00"> Tips.</param>
       * <param name="type" example="1"> Payment type.</param>
       * <response code="200">Order has been confirmed.</response>
       * <remarks>Note: Currently we need to discuss what is needed information.</remarks>
       */
     [HttpPost]
-    [Route("{orderId}/place/unregistered")]
-    public ActionResult PlaceOrderUnregistered(PaymentType type, Guid orderId, Guid locationId, decimal tips)
+    [Route("{id}/place/unregistered")]
+    public ActionResult PlaceOrderUnregistered(PaymentType type, Guid id, Guid locationId, decimal tips)
     {
         return Ok();
     }
 
     /** <summary>Add date to the order</summary>
-      * <param name="orderId" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Order id</param>
+      * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Order id</param>
       * <param name="date" example="2022-12-24"> Order date.</param>
       * <response code="200">Date has been added to the order.</response>
       */
     [HttpPost]
-    [Route("{orderId}/addDate")]
-    public ActionResult AddDateToOrder(Guid orderId, DateTime date)
+    [Route("{id}/addDate")]
+    public ActionResult AddDateToOrder(Guid id, DateTime date)
     {
-        var order = _randomDataGenerator.GenerateValues<Order>(orderId);
+        var order = _randomDataGenerator.GenerateValues<Order>(id);
         order.Date = date;
         return Ok(order);
     }
 
     /** <summary>Add comment to the order</summary>
-      * <param name="orderId" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Order id</param>
+      * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Order id</param>
       * <param name="comment" example="I want no onions"> Order comments.</param>
       * <response code="200">Comment has been added to the order.</response>
       */
     [HttpPost]
-    [Route("{orderId}/addComment")]
-    public ActionResult AddDateToOrder(Guid orderId, [FromBody] string comment)
+    [Route("{id}/addComment")]
+    public ActionResult AddDateToOrder(Guid id, [FromBody] string comment)
     {
-        var order = _randomDataGenerator.GenerateValues<OrderItem>(orderId);
+        var order = _randomDataGenerator.GenerateValues<OrderItem>(id);
         order.Comment = comment;
         return Ok(order);
     }
 
     /** <summary>Add employee to the order</summary>
-        * <param name="orderId" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Order id</param>
+        * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Order id</param>
         * <param name="employeeId" example="f9aaafb1-487a-443b-9b34-c6d08493c04d"> Employee id.</param>
         * <response code="200">Employee has been added to the order.</response>
         */
     [HttpPost]
-    [Route("{orderId}/employee/add/{employeeId}")]
-    public ActionResult AddEmployeeToTheOrder(Guid orderId, Guid employeeId)
+    [Route("{id}/employee/add/{employeeId}")]
+    public ActionResult AddEmployeeToTheOrder(Guid id, Guid employeeId)
     {
-        var order = _randomDataGenerator.GenerateValues<Order>(orderId);
+        var order = _randomDataGenerator.GenerateValues<Order>(id);
         order.EmployeeId = employeeId;
+        return Ok(order);
+    }
+
+    /** <summary>Add tips to the order</summary>
+    * <param name="id" example="f9299fb1-487a-443b-9b34-c6d08493c04d">Order id</param>
+    * <param name="tipAmount" example="2.5">Tip amount</param>
+    * <response code="200">Order with added tip.</response>
+    */
+    [HttpPost]
+    [Route("{id}/tip")]
+    public ActionResult AddTip(Guid id, decimal tipAmount)
+    {
+        var order = _randomDataGenerator.GenerateValues<Order>(id);
+        order.Tips = tipAmount;
         return Ok(order);
     }
 

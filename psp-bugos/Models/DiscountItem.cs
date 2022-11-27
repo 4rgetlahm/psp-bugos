@@ -6,7 +6,7 @@ public record DiscountItem
     
     public Guid DiscountId { get; set; }
     
-    public Guid ProductId { get; set; }
+    public Guid? ProductId { get; set; }
     
     public Guid? ServiceId { get; set; }
 }
