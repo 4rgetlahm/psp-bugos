@@ -16,6 +16,7 @@ public class AccountsController : Controller
 {
     private readonly IRandomDataGenerator _randomDataGenerator;
 
+
     public AccountsController(IRandomDataGenerator randomDataGenerator)
     {
         _randomDataGenerator = randomDataGenerator;
@@ -205,4 +206,14 @@ public class AccountsController : Controller
         return Ok();
     }
 
+    /** <summary>Update employee account privileges</summary>
+     * <param name="employeePrivilegeUpdateRequest">Filled model with employee privilege change information</param>
+     * <param name="id" example="aa4a7a53-5e8e-40f7-9e29-4a220bf03f60">Employee id</param>
+     */
+    [HttpPatch]
+    [Route("employees/{id}/privileges")]
+    public async Task<IActionResult> EditEmployeePrivileges(Guid id, UpdateEmployeePrivileges employeePrivilegeUpdateRequest)
+    {
+        return Ok();
+    }
 }
