@@ -5,42 +5,6 @@
     "version": "1.0"
   },
   "paths": {
-    "/AccountManagement/employee/privileges/edit": {
-      "patch": {
-        "tags": [
-          "AccountManagement"
-        ],
-        "summary": "Update employee account privileges",
-        "requestBody": {
-          "description": "Filled model with employee privilege change information",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateEmployeePrivileges"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateEmployeePrivileges"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateEmployeePrivileges"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "If no issues occured and privileges changed"
-          },
-          "400": {
-            "description": "Returns what error occured"
-          }
-        }
-      }
-    },
     "/employees": {
       "get": {
         "tags": [
@@ -462,6 +426,52 @@
           },
           "400": {
             "description": "Returns what error occured"
+          }
+        }
+      }
+    },
+    "/employees/{id}/privileges": {
+      "patch": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Update employee account privileges",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Employee id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "aa4a7a53-5e8e-40f7-9e29-4a220bf03f60"
+          }
+        ],
+        "requestBody": {
+          "description": "Filled model with employee privilege change information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEmployeePrivileges"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEmployeePrivileges"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEmployeePrivileges"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
@@ -1220,7 +1230,7 @@
         }
       }
     },
-    "/orders/{orderId}/place": {
+    "/orders/{id}/place": {
       "post": {
         "tags": [
           "Orders"
@@ -1239,7 +1249,7 @@
             "example": "e0299fb1-487a-443b-9b34-c6d08493c04d"
           },
           {
-            "name": "orderId",
+            "name": "id",
             "in": "path",
             "description": "Order id",
             "required": true,
@@ -1266,7 +1276,7 @@
         }
       }
     },
-    "/orders/{orderId}/place/unregistered": {
+    "/orders/{id}/place/unregistered": {
       "post": {
         "tags": [
           "Orders"
@@ -1284,7 +1294,7 @@
             "example": 1
           },
           {
-            "name": "orderId",
+            "name": "id",
             "in": "path",
             "description": "Order id",
             "required": true,
@@ -1322,7 +1332,7 @@
         }
       }
     },
-    "/orders/{orderId}/addDate": {
+    "/orders/{id}/addDate": {
       "post": {
         "tags": [
           "Orders"
@@ -1330,7 +1340,7 @@
         "summary": "Add date to the order",
         "parameters": [
           {
-            "name": "orderId",
+            "name": "id",
             "in": "path",
             "description": "Order id",
             "required": true,
@@ -1358,7 +1368,7 @@
         }
       }
     },
-    "/orders/{orderId}/addComment": {
+    "/orders/{id}/addComment": {
       "post": {
         "tags": [
           "Orders"
@@ -1366,7 +1376,7 @@
         "summary": "Add comment to the order",
         "parameters": [
           {
-            "name": "orderId",
+            "name": "id",
             "in": "path",
             "description": "Order id",
             "required": true,
@@ -1407,7 +1417,7 @@
         }
       }
     },
-    "/orders/{orderId}/employee/add/{employeeId}": {
+    "/orders/{id}/employee/add/{employeeId}": {
       "post": {
         "tags": [
           "Orders"
@@ -1415,7 +1425,7 @@
         "summary": "Add employee to the order",
         "parameters": [
           {
-            "name": "orderId",
+            "name": "id",
             "in": "path",
             "description": "Order id",
             "required": true,
@@ -1440,6 +1450,42 @@
         "responses": {
           "200": {
             "description": "Employee has been added to the order."
+          }
+        }
+      }
+    },
+    "/orders/{id}/tip": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Add tips to the order",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Order id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          },
+          {
+            "name": "tipAmount",
+            "in": "query",
+            "description": "Tip amount",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            },
+            "example": 2.5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order with added tip."
           }
         }
       }
@@ -2127,7 +2173,7 @@
         "tags": [
           "Products"
         ],
-        "summary": "Remove product in a cart.",
+        "summary": "Update inventory.",
         "parameters": [
           {
             "name": "id",
@@ -2268,6 +2314,30 @@
       }
     },
     "/products/{id}/discounts": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get all existing discounts (discountItems) that the product has.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns discountItems."
+          }
+        }
+      },
       "post": {
         "tags": [
           "Products"
@@ -2943,77 +3013,174 @@
         }
       }
     },
-    "/services/categories/{id}": {
-      "patch": {
+    "/services/{id}/categories": {
+      "post": {
         "tags": [
           "Services"
         ],
-        "summary": "Update an existing service's categories",
+        "summary": "Add an existing category to the service.",
         "parameters": [
-          {
-            "name": "serviceId",
-            "in": "query",
-            "description": "GUID of a service",
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "example": "2e816ad7-5cd7-4da0-bc93-879b36633207"
-            },
-            "example": "2e816ad7-5cd7-4da0-bc93-879b36633207"
-          },
-          {
-            "name": "addServiceCategories",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "format": "uuid"
-              }
-            }
-          },
-          {
-            "name": "removeServiceCategories",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "format": "uuid"
-              }
-            }
-          },
           {
             "name": "id",
             "in": "path",
+            "description": "Service id.",
             "required": true,
             "schema": {
-              "type": "string"
-            }
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "description": "Id of an existing category that was created via categories endpoint.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "aa4a7a53-5e8e-40f7-9e29-4a220bf03f60"
           }
         ],
         "responses": {
           "200": {
-            "description": "Returns a modified service.",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Service"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Service"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Service"
-                }
-              }
-            }
+            "description": "Returns a categoryItem."
+          }
+        }
+      }
+    },
+    "/services/{id}/categories/{categoryItemId}": {
+      "delete": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Delete an existing category from the service.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Service id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          },
+          {
+            "name": "categoryItemId",
+            "in": "path",
+            "description": "Id of a category item (an id of an object received from POST service/id/categories endpoint).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "aa4a7a53-5e8e-40f7-9e29-4a220bf03f60"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/services/{id}/discounts": {
+      "get": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Get all existing discounts (discountItems) that the service has.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Service id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns discountItems."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Add an existing discount to the service.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Service id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          },
+          {
+            "name": "discountId",
+            "in": "query",
+            "description": "Id of an existing discount that was created via discounts endpoint.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "aa4a7a53-5e8e-40f7-9e29-4a220bf03f60"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a discountItem."
+          }
+        }
+      }
+    },
+    "/services/{id}/discounts/{discountItemId}": {
+      "delete": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Delete an existing discount from the service.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Service id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "f9299fb1-487a-443b-9b34-c6d08493c04d"
+          },
+          {
+            "name": "discountItemId",
+            "in": "path",
+            "description": "Id of a discount item (an id of an object received from POST services/id/discounts endpoint).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "aa4a7a53-5e8e-40f7-9e29-4a220bf03f60"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
           }
         }
       }
@@ -3098,7 +3265,7 @@
         }
       }
     },
-    "/services/{id}/timeslot/{timeSlotId}": {
+    "/services/{id}/timeslot/{timeslotId}": {
       "patch": {
         "tags": [
           "Services"
@@ -3151,7 +3318,7 @@
             "example": "111b771c-5c2b-436d-8500-783fb5e2edff"
           },
           {
-            "name": "timeSlotId",
+            "name": "timeslotId",
             "in": "path",
             "description": "GUID of a timeslot's service.",
             "required": true,
@@ -3182,6 +3349,41 @@
                 }
               }
             }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Delete an existing timeslot.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "GUID of a timeslot's service.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "111b771c-5c2b-436d-8500-783fb5e2edff"
+          },
+          {
+            "name": "timeslotId",
+            "in": "path",
+            "description": "GUID of a timeslot's service.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "222b771c-5c2b-436d-8500-783fb5e2edff"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
           }
         }
       }
